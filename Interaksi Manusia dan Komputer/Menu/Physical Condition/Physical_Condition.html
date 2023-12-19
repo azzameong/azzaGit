@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="Physical_Condition.css">
+    <link href="https://fonts.googleapis.com/css?family=Koulen" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Mochiy Pop P One" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>PHYSICAL CONDITION</title>
+</head>
+
+<body>
+    <div class="left-side">
+        <h1 class="modern-text">BASKET</h1>
+        <div class="menu-container">
+            <h1>GENERAL</h1>
+            <div class="sub-menu">
+                <img src="E:\PROJECT_IMK\Image Asset\Menu Asset\General\dashboard.png" alt="dashboard">
+                <a href="E:\PROJECT_IMK\Menu\Dashboard\Dashboard.html">Dashboard</a>
+            </div>
+            <div class="sub-menu">
+                <img src="E:\PROJECT_IMK\Image Asset\Menu Asset\General\phys.png" alt="phys">
+                <a href="#">Physical Condition</a>
+            </div>
+            <div class="sub-menu">
+                <img src="E:\PROJECT_IMK\Image Asset\Menu Asset\General\exercise.png" alt="exercise">
+                <a href="E:\PROJECT_IMK\Menu\Exercise\Exercise.html">Exercise</a>
+            </div>
+            <h1>TOOLS</h1>
+            <div class="sub-menu">
+                <img src="E:\PROJECT_IMK\Image Asset\Menu Asset\General\profile.png" alt="profile">
+                <a href="E:\PROJECT_IMK\Menu\Profile\Profile.html">Profile</a>
+            </div>
+        </div>
+        <div class="logout">
+            <div class="sub-menu">
+                <img src="E:\PROJECT_IMK\Image Asset\Menu Asset\General\logout.png" alt="logout">
+                <a href="E:\PROJECT_IMK\Log Page\Login\Login_Page.html">Log out</a>
+            </div>
+        </div>
+    </div>
+    <div class="right-side">
+        <div class="header">
+            <h1 class="page-title">PHYSICAL CONDITION</h1>
+            <div class="profile-box">
+                <div class="profile-pict">
+                    <a href="E:\PROJECT_IMK\Menu\Profile\Profile.html">
+                        <img src="E:\PROJECT_IMK\Image Asset\Menu Asset\General\pfp.png" alt="#">
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="footer-left">
+                <div class="player-info">
+                    <p id="playerName"></p>
+                    <select id="playerDropdown" onchange="changePlayer()" class="right-align">
+                        <option value="player1">Point Guard</option>
+                        <option value="player2">Shooting Guard</option>
+                        <option value="player3">Small Forward</option>
+                        <option value="player4">Power Forward</option>
+                        <option value="player5">Center</option>
+                    </select>
+                </div>
+                <div class="blood-pressure">
+                    <p class="bp-label">Blood Pressure</p>
+                    <p class="bp-value" id="bpValue">120/80 mmHg</p>
+                </div>
+                <div class="heart-rate">
+                    <p id="heartRateText">Heart Rate: <span id="averageBPM">--</span> bpm</p>
+                </div>
+                <canvas id="heartRateChart" width="400" height="200"></canvas>
+            </div>
+            <div class="footer-right">
+                <div class="player-photo">
+                    <img id="playerPhoto" src="E:\PROJECT_IMK\Image Asset\Menu Asset\Physical Condition\player_1.png" alt="Player Photo">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample player data (replace with your actual data)
+        var playerData = {
+            player1: {
+                name: "D'Angelo Russell",
+                bloodPressure: "120/80 mmHg",
+                heartRate: [
+                    127.0, 127.0, 126.0, 126.0, 116.0, 101.0, 101.0, 101.0, 100.0, 99.0,
+                    98.0, 98.0, 98.0, 100.0, 101.0, 109.0, 111.0, 109.0, 109.0, 110.0,
+                    109.0, 106.0, 104.0, 106.0, 108.0, 108.0, 111.0, 114.0, 115.0, 116.0,
+                    115.0, 119.0, 121.0, 121.0, 119.0, 113.0, 110.0, 108.0, 109.0, 111.0,
+                    111.0, 112.0, 112.0, 112.0, 113.0, 113.0, 109.0, 111.0, 114.0, 113.0,
+                    110.0, 108.0, 111.0, 113.0, 116.0, 119.0, 120.0, 121.0, 120.0, 119.0,
+                    119.0, 118.0, 116.0, 113.0, 114.0, 113.0, 113.0, 115.0, 107.0, 105.0,
+                    102.0, 100.0, 99.0, 98.0, 99.0, 105.0, 113.0, 117.0, 114.0, 115.0,
+                    117.0, 115.0, 114.0, 116.0, 121.0, 121.0, 122.0, 122.0, 122.0, 123.0,
+                    124.0, 125.0, 125.0, 125.0, 125.0, 126.0, 128.0, 129.0, 129.0, 130.0,
+                    132.0, 134.0, 134.0, 134.0, 135.0, 135.0, 133.0, 133.0, 133.0, 132.0,
+                    133.0, 133.0, 134.0, 134.0, 134.0, 135.0, 138.0, 139.0, 139.0, 141.0,
+                    142.0, 144.0, 145.0, 147.0, 148.0, 150.0, 152.0, 154.0, 155.0, 156.0,
+                    158.0, 159.0, 159.0, 159.0, 158.0, 158.0, 157.0, 157.0, 156.0, 157.0,
+                    156.0, 153.0, 151.0, 151.0, 150.0, 150.0, 150.0, 149.0, 148.0, 148.0,
+                    148.0, 148.0, 147.0, 147.0, 146.0, 146.0, 145.0, 145.0, 145.0, 144.0,
+                    144.0, 145.0, 144.0, 143.0, 142.0, 141.0, 141.0, 141.0, 142.0, 142.0,
+                    142.0, 141.0, 141.0, 140.0, 141.0, 142.0, 142.0, 142.0, 141.0, 140.0
+                ],
+                photo: "E:/PROJECT_IMK/Image Asset/Menu Asset/Physical Condition/player_1.png"
+            },
+            player2: {
+                name: "Max Christie",
+                bloodPressure: "115/75 mmHg",
+                heartRate: [
+                    141.0, 141.0, 137.0, 135.0, 135.0, 135.0, 136.0, 138.0, 136.0, 136.0,
+                    137.0, 134.0, 134.0, 135.0, 137.0, 138.0, 135.0, 133.0, 132.0, 131.0,
+                    131.0, 133.0, 134.0, 134.0, 134.0, 132.0, 132.0, 133.0, 130.0, 127.0,
+                    129.0, 130.0, 130.0, 131.0, 131.0, 131.0, 130.0, 129.0, 127.0, 124.0,
+                    121.0, 119.0, 118.0, 118.0, 117.0, 116.0, 116.0, 115.0, 114.0, 114.0,
+                    113.0, 112.0, 112.0, 111.0, 109.0, 113.0, 115.0, 111.0, 114.0, 114.0,
+                    117.0, 116.0, 114.0, 111.0, 109.0, 109.0, 111.0, 115.0, 118.0, 119.0,
+                    120.0, 121.0, 121.0, 120.0, 118.0, 102.0, 100.0, 101.0, 99.0, 96.0,
+                    94.0, 95.0, 94.0, 94.0, 96.0, 95.0, 95.0, 95.0, 95.0, 99.0, 102.0,
+                    105.0, 105.0, 105.0, 105.0, 105.0, 105.0, 104.0, 102.0, 101.0, 102.0,
+                    110.0, 114.0, 117.0, 121.0, 122.0, 122.0, 124.0, 125.0, 125.0, 127.0,
+                    125.0, 125.0, 125.0, 124.0, 123.0, 124.0, 122.0, 121.0, 122.0, 123.0,
+                    123.0, 122.0, 123.0, 119.0, 119.0, 117.0, 118.0, 119.0, 120.0, 120.0,
+                    121.0, 120.0, 118.0, 118.0, 119.0, 120.0, 118.0, 116.0, 118.0, 119.0,
+                    119.0, 121.0, 119.0, 116.0, 119.0, 121.0, 121.0, 122.0, 119.0, 117.0,
+                    117.0, 117.0, 118.0, 118.0, 119.0, 120.0, 121.0, 122.0, 123.0, 123.0,
+                    122.0, 122.0, 120.0, 116.0, 116.0, 117.0, 118.0, 119.0, 120.0, 121.0,
+                    122.0, 123.0, 123.0, 122.0, 123.0, 123.0, 119.0, 120.0, 121.0
+                ],
+                photo: "E:/PROJECT_IMK/Image Asset/Menu Asset/Physical Condition/player_2.png"
+            },
+            player3: {
+                name: "Maxwell Lewis",
+                bloodPressure: "130/85 mmHg",
+                heartRate: [
+                    121.0, 120.0, 119.0, 118.0, 116.0, 116.0, 115.0, 112.0, 113.0, 111.0,
+                    114.0, 118.0, 118.0, 117.0, 118.0, 120.0, 120.0, 117.0, 114.0, 111.0,
+                    110.0, 112.0, 112.0, 115.0, 114.0, 115.0, 114.0, 114.0, 115.0, 114.0,
+                    114.0, 114.0, 116.0, 118.0, 120.0, 121.0, 121.0, 122.0, 122.0, 122.0,
+                    123.0, 120.0, 119.0, 119.0, 118.0, 114.0, 112.0, 116.0, 118.0, 120.0,
+                    121.0, 121.0, 120.0, 119.0, 118.0, 119.0, 118.0, 113.0, 114.0, 113.0,
+                    114.0, 115.0, 113.0, 111.0, 109.0, 107.0, 107.0, 110.0, 113.0, 115.0,
+                    117.0, 114.0, 113.0, 114.0, 112.0, 113.0, 114.0, 112.0, 108.0, 110.0,
+                    111.0, 113.0, 115.0, 116.0, 115.0, 111.0, 111.0, 114.0, 116.0, 115.0,
+                    115.0, 114.0, 111.0, 107.0, 108.0, 109.0, 111.0, 112.0, 114.0, 115.0,
+                    116.0, 116.0, 113.0, 114.0, 115.0, 117.0, 118.0, 116.0, 115.0, 117.0,
+                    118.0, 119.0, 120.0, 120.0, 120.0, 118.0, 118.0, 119.0, 120.0, 121.0,
+                    121.0, 121.0, 122.0, 122.0, 122.0, 122.0, 122.0, 121.0, 119.0, 119.0,
+                    120.0, 117.0, 116.0, 118.0, 119.0, 120.0, 121.0, 121.0, 120.0, 122.0,
+                    122.0, 122.0, 122.0, 121.0, 121.0, 121.0, 118.0, 114.0, 114.0, 114.0,
+                    116.0, 117.0, 118.0, 118.0, 119.0, 119.0, 118.0, 114.0, 115.0, 115.0,
+                    115.0, 115.0, 115.0, 114.0, 116.0, 117.0, 117.0, 119.0, 118.0, 117.0,
+                    117.0, 117.0, 115.0, 113.0, 113.0, 112.0, 111.0, 112.0, 114.0, 115.0
+                ],
+                photo: "E:/PROJECT_IMK/Image Asset/Menu Asset/Physical Condition/player_3.png"
+            },
+            player4: {
+                name: "LeBron James",
+                bloodPressure: "125/78 mmHg",
+                heartRate: [
+                    116.0, 118.0, 118.0, 118.0, 115.0, 115.0, 115.0, 115.0, 115.0, 117.0,
+                    117.0, 118.0, 118.0, 117.0, 117.0, 118.0, 120.0, 121.0, 119.0, 119.0,
+                    121.0, 123.0, 123.0, 122.0, 121.0, 121.0, 121.0, 121.0, 120.0, 117.0,
+                    115.0, 116.0, 115.0, 115.0, 112.0, 109.0, 108.0, 105.0, 104.0, 104.0,
+                    105.0, 104.0, 106.0, 108.0, 111.0, 113.0, 115.0, 116.0, 118.0, 119.0,
+                    119.0, 120.0, 119.0, 118.0, 118.0, 118.0, 116.0, 117.0, 117.0, 118.0,
+                    118.0, 117.0, 118.0, 120.0, 121.0, 121.0, 121.0, 119.0, 117.0, 117.0,
+                    117.0, 118.0, 117.0, 118.0, 119.0, 117.0, 117.0, 117.0, 117.0, 115.0,
+                    114.0, 113.0, 113.0, 115.0, 118.0, 120.0, 121.0, 118.0, 115.0, 115.0,
+                    115.0, 118.0, 119.0, 118.0, 117.0, 112.0, 112.0, 112.0, 112.0, 114.0,
+                    117.0, 114.0, 112.0, 112.0, 111.0, 112.0, 112.0, 114.0, 115.0, 117.0,
+                    117.0, 117.0, 116.0, 115.0, 115.0, 113.0, 114.0, 114.0, 116.0, 116.0,
+                    115.0, 116.0, 116.0, 115.0, 115.0, 115.0, 114.0, 112.0, 109.0, 108.0,
+                    105.0, 104.0, 104.0, 107.0, 108.0, 109.0, 108.0, 106.0, 106.0, 105.0,
+                    106.0, 105.0, 104.0, 102.0, 99.0, 98.0, 97.0, 97.0, 99.0, 98.0, 96.0,
+                    99.0, 100.0, 101.0, 103.0, 106.0, 106.0, 104.0, 101.0, 99.0, 98.0, 94.0,
+                    92.0, 90.0, 90.0, 93.0, 94.0, 94.0, 94.0, 94.0, 90.0, 88.0, 87.0, 86.0,
+                    86.0, 87.0, 86.0, 85.0, 85.0, 84.0
+                ],
+                photo: "E:/PROJECT_IMK/Image Asset/Menu Asset/Physical Condition/player_4.png"
+            },
+            player5: {
+                name: "Colin Castleton",
+                bloodPressure: "122/79 mmHg",
+                heartRate: [
+                    84.0, 86.0, 88.0, 88.0, 88.0, 89.0, 88.0, 86.0, 85.0, 85.0,
+                    85.0, 85.0, 92.0, 94.0, 93.0, 93.0, 98.0, 100.0, 100.0, 98.0,
+                    95.0, 96.0, 96.0, 95.0, 92.0, 92.0, 90.0, 90.0, 91.0, 92.0,
+                    93.0, 92.0, 90.0, 92.0, 93.0, 94.0, 94.0, 94.0, 95.0, 93.0,
+                    87.0, 85.0, 82.0, 81.0, 81.0, 81.0, 83.0, 84.0, 87.0, 88.0,
+                    89.0, 91.0, 91.0, 91.0, 92.0, 93.0, 93.0, 93.0, 93.0, 93.0,
+                    93.0, 93.0, 93.0, 93.0, 94.0, 94.0, 94.0, 95.0, 94.0, 92.0,
+                    92.0, 93.0, 94.0, 94.0, 95.0, 97.0, 98.0, 98.0, 98.0, 98.0,
+                    98.0, 95.0, 94.0, 94.0, 94.0, 94.0, 94.0, 93.0, 93.0, 93.0,
+                    92.0, 92.0, 92.0, 92.0, 92.0, 91.0, 91.0, 90.0, 90.0, 91.0,
+                    92.0, 93.0, 93.0, 94.0, 93.0, 93.0, 93.0, 94.0, 95.0, 95.0,
+                    97.0, 97.0, 95.0, 94.0, 94.0, 94.0, 94.0, 95.0, 96.0, 95.0,
+                    94.0, 94.0, 94.0, 94.0, 93.0, 93.0, 93.0, 93.0, 92.0, 91.0,
+                    92.0, 93.0, 93.0, 94.0, 98.0, 99.0, 99.0, 97.0, 95.0, 94.0,
+                    94.0, 94.0, 83.0, 82.0, 81.0, 82.0, 84.0, 85.0, 86.0, 88.0,
+                    90.0, 91.0, 91.0, 90.0, 91.0, 93.0, 95.0, 95.0, 95.0, 95.0,
+                    94.0, 93.0, 92.0, 91.0, 92.0, 95.0, 95.0, 96.0, 94.0, 92.0,
+                    91.0, 90.0, 90.0, 89.0, 88.0, 88.0, 89.0, 91.0, 92.0, 91.0,
+                ],
+                photo: "E:/PROJECT_IMK/Image Asset/Menu Asset/Physical Condition/player_5.png"
+            }
+        };
+
+        var currentPlayer = "player1"; // Default player
+
+        // Function to change the current player
+        function changePlayer() {
+            var selectedPlayer = document.getElementById("playerDropdown").value;
+            currentPlayer = selectedPlayer;
+
+            // Update player information
+            updatePlayerInfo();
+        }
+
+        // Function to update player information
+        function updatePlayerInfo() {
+            var playerInfo = playerData[currentPlayer];
+
+            // Update player name
+            document.getElementById('playerName').textContent = playerInfo.name;
+
+            // Update blood pressure
+            document.getElementById('bpValue').textContent = playerInfo.bloodPressure;
+
+            // Update heart rate chart
+            heartRateChart.data.datasets[0].data = playerInfo.heartRate.slice(0, 10);
+            heartRateChart.update();
+
+            // Update player photo
+            document.getElementById('playerPhoto').src = playerInfo.photo;
+        }
+
+        // Sample heart rate data (replace with your actual data)
+        var heartRateData = playerData[currentPlayer].heartRate
+
+        var currentIndex = 0;
+
+        // Get the canvas element
+        var ctx = document.getElementById('heartRateChart').getContext('2d');
+
+        // Create the heart rate chart
+        var heartRateChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: Array.from({ length: heartRateData.length }, (_, i) => i + 1),
+                datasets: [{
+                    label: 'Heart Rate',
+                    borderColor: '#FF5733',
+                    pointBackgroundColor: '#FF5733',
+                    pointBorderColor: '#fff',
+                    pointRadius: 6,
+                    pointHoverRadius: 8,
+                    data: heartRateData.slice(0, 10) // Display the first 10 data points initially
+                }],
+            },
+            options: {
+                scales: {
+                    x: {
+                        type: 'linear',
+                        position: 'bottom',
+                        title: {
+                            display: true,
+                            text: 'Time (second)',
+                        },
+                    },
+                    y: {
+                        type: 'linear',
+                        position: 'left',
+                        title: {
+                            display: true,
+                            text: 'Heart Rate (bpm)',
+                        },
+                    },
+                },
+                animation: {
+                    duration: 1000, // Set animation duration (in milliseconds)
+                },
+                elements: {
+                    line: {
+                        tension: 0.4, // Adjust the line curve
+                        borderWidth: 2, // Adjust line thickness
+                    },
+                },
+                plugins: {
+                    legend: {
+                        display: false, // Hide legend for cleaner look
+                    },
+                },
+                layout: {
+                    padding: {
+                        left: 5,
+                        right: 20,
+                        top: 20,
+                        bottom: 20,
+                    },
+                }
+            },
+        });
+
+        // Update data every 1 second
+        setInterval(function () {
+            currentIndex += 2; // Move to the next set of 2 data points
+            var newData = heartRateData.slice(currentIndex, currentIndex + 10);
+            heartRateChart.data.datasets[0].data = newData;
+            heartRateChart.update();
+
+            // Calculate and display the average heart rate
+            var averageBPM = calculateAverage(newData);
+            document.getElementById('averageBPM').textContent = averageBPM.toFixed(2);
+
+        }, 2000);
+
+        // Function to calculate average
+        function calculateAverage(data) {
+            var sum = data.reduce(function (a, b) {
+                return a + b;
+            }, 0);
+            return sum / data.length;
+        }
+
+        // Initial update for the default player
+        updatePlayerInfo();
+    </script> 
+
+
+</body>
+
+</html>

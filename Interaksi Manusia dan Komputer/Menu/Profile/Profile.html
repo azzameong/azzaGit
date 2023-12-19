@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="Profile.css">
+    <link href="https://fonts.googleapis.com/css?family=Koulen" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Mochiy Pop P One" rel="stylesheet" />
+    <title>PROFILE</title>
+</head>
+
+<body>
+    <div class="left-side">
+        <h1 class="modern-text">BASKET</h1>
+        <div class="menu-container">
+            <h1>GENERAL</h1>
+            <div class="sub-menu">
+                <img src="E:\PROJECT_IMK\Image Asset\Menu Asset\General\dashboard.png" alt="dashboard">
+                <a href="E:\PROJECT_IMK\Menu\Dashboard\Dashboard.html">Dashboard</a>
+            </div>
+            <div class="sub-menu">
+                <img src="E:\PROJECT_IMK\Image Asset\Menu Asset\General\phys.png" alt="phys">
+                <a href="E:\PROJECT_IMK\Menu\Physical Condition\Physical_Condition.html">Physical Condition</a>
+            </div>
+            <div class="sub-menu">
+                <img src="E:\PROJECT_IMK\Image Asset\Menu Asset\General\exercise.png" alt="exercise">
+                <a href="E:\PROJECT_IMK\Menu\Exercise\Exercise.html">Exercise</a>
+            </div>
+            <h1>TOOLS</h1>
+            <div class="sub-menu">
+                <img src="E:\PROJECT_IMK\Image Asset\Menu Asset\General\profile.png" alt="profile">
+                <a href="#">Profile</a>
+            </div>
+        </div>
+        <div class="logout">
+            <div class="sub-menu">
+                <img src="E:\PROJECT_IMK\Image Asset\Menu Asset\General\logout.png" alt="logout">
+                <a href="E:\PROJECT_IMK\Log Page\Login\Login_Page.html">Log out</a>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="right-side">
+        <div class="header">
+            <h1 class="page-title">PROFILE</h1>
+            <div class="search-box">
+                <div class="profile-pict">
+                    <a href="#">
+                        <img src="E:\PROJECT_IMK\Image Asset\Menu Asset\General\pfp.png" alt="#">
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="main">
+            <div class="main-left">
+                <div class="coach-info-container">
+                    
+                    <div id="kontainerFoto">
+                        <img id="fotoProfil" src="E:\PROJECT_IMK\Image Asset\Menu Asset\Profile\profile-coach.png" alt="Foto Profil">
+                        <div id="gantiFoto" onclick="gantiFoto()">
+                            <img src="E:\PROJECT_IMK\Image Asset\Menu Asset\Profile\ikon-foto.png" alt="Ganti Foto" class="icon-foto">
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <div class="main-center">
+                <h1 class="coach-info">COACH</h1>
+                <div class="kotak-nama" id="kotakNama">
+                    <p class="font-nama">SYAUQI</p>
+                    <div onclick="gantiNama()" class="gambar-container">
+                        <img src="E:\PROJECT_IMK\Image Asset\Menu Asset\Profile\ikon-nama.png" alt="Ganti Nama" class="icon-nama">
+                    </div>
+                </div>
+            </div>
+
+            <div class="main-right">
+                <div class="coach-description">
+                    <p>
+                        <strong>Age :</strong> 40 
+                    </p>
+                    <p>
+                        <strong>Weight :</strong> 75 kg
+                    </p>
+                    <p>
+                        <strong>Height :</strong> 180 cm
+                    </p>
+                    <p>
+                        <strong>Contact :</strong> 08123456789
+                    </p>
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="team">
+            <p>TEAM INFORMATION</p>
+        </div>
+
+
+        <div class="footer">
+            <div class="footer1">
+                <p class="nama-player"><strong>D'Angelo Russel</strong></p>
+                <p>PG</p>
+                <p>Height: 196 cm</p>
+                <p>Weight: 88 kg</p>
+            </div>
+            <div class="footer2">
+                <p class="nama-player"><strong>Max Christie</strong> </p>
+                <p>SG</p>
+                <p>Height: 196 cm</p>
+                <p>Weight: 86 kg</p>
+            </div>
+            <div class="footer3">
+                <p class="nama-player"><strong>Maxwell Lewis</strong></p>
+                <p>SF</p>
+                <p>Height: 201 cm</p>
+                <p>Weight: 88 kg</p>
+            </div>
+            <div class="footer4">
+                <p class="nama-player"><strong>LeBron James</strong></p>
+                <p>PF</p>
+                <p>Height: 206 cm</p>
+                <p>Weight: 113 kg</p>
+            </div>
+            <div class="footer5">
+                <p class="nama-player"><strong>Colin Castleton</strong></p>
+                <p>C</p>
+                <p>Height: 208 cm</p>
+                <p>Weight: 113 kg</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function gantiFoto() {
+            var input = document.createElement("input");
+            input.type = "file";
+            input.accept = "image/*";
+            input.onchange = function (e) {
+                var file = e.target.files[0];
+                if (file) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        document.getElementById("fotoProfil").src = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            };
+            input.click();
+        }
+
+        function gantiNama() {
+            var namaBaru = prompt("Masukkan nama baru:");
+            if (namaBaru !== null) {
+                namaBaru = namaBaru.trim();
+                if (namaBaru !== "") {
+                    document.querySelector("#kotakNama .font-nama").innerHTML = namaBaru;
+                } else {
+                    alert("Nama tidak boleh kosong!");
+                }
+            }
+        }
+    </script>
+
+</body>
+</html>
